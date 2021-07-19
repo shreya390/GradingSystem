@@ -10,10 +10,20 @@ class gradeSystem{
     }
     calculateBuildGrade (){
         let grade="";
-        if(this.total<=0|| this.passed<=0||this.failed<=0||this.skipped<=0||this.aborted<=0||this.passed>this.total||this.skipped>this.total||this.failed>this.total){
-            grade= "InvalidGrade";
-            return grade;
+        try{
+                if(this.total<=0) throw "total testCases are not less than 0";
+                if(this.passed<=0) throw "passed test cases are not less than 0";
+                if(this.failed<=0) throw "failed test cases are not less than 0";
+                if(this.skipped<=0) throw "skipped test cases are not less than 0";
+                if(this.aborted<=0) throw "aborted test cases are not less than 0";
+                if(this.passed>this.total) throw "passed test cases are not greater than to  total test cases";
+                if(this.skipped>this.total) throw "total skipped test cases are not greater than total  test cases";
         }
+        catch(err)
+        {
+            return err;
+        }
+       
         let percentage= this.passed/(this.total- this.skipped+this.aborted);
         
         percentage=parseInt(percentage*100);
