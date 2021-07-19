@@ -16,7 +16,7 @@ describe("PercentageCalculation And Grade",()=>{
            }
         var gradeSystem1= new gradeSystem(Json_job1);
         var result= gradeSystem1.calculateBuildGrade();
-        expect(result).to.equal("A");
+        assert(result=="A", 'the result is not A grade');
 
     });
 
@@ -26,14 +26,14 @@ describe("PercentageCalculation And Grade",()=>{
             'buildNumber': '123456',
             'total': 900,
             'passed': 750,
-            'failed': 50,
+            'failed': 5,
             'skipped': 3,
             'aborted': 2
            }
            
            let gradeSystem1= new gradeSystem(Json_job2);
            var result= gradeSystem1.calculateBuildGrade();
-           expect(result).to.equal("B");
+           assert(result=="B", 'the result is not B grade');
 
     });
 
@@ -49,7 +49,7 @@ describe("PercentageCalculation And Grade",()=>{
            
            var gradeSystem1= new gradeSystem(Json_job3);
            var result=gradeSystem1.calculateBuildGrade();
-           expect(result).to.equal("C");
+           assert(result=="C", 'the result is not C grade');
 
     });
 
@@ -65,7 +65,7 @@ describe("PercentageCalculation And Grade",()=>{
 
         var gradeSystem1= new gradeSystem(Json_job4);
         var result= gradeSystem1.calculateBuildGrade();
-        expect(result).to.equal("D");
+        assert(result=="D", 'the result is not D grade');
 
     });
     
@@ -80,8 +80,7 @@ describe("PercentageCalculation And Grade",()=>{
            }
          var gradeSystem1= new gradeSystem(Json_job5);
          var result= gradeSystem1.calculateBuildGrade();
-         expect(result).to.equal("F");
-        
+         assert(result=="F", 'the result is not F grade')
     });
 
     it("Total No of testcases are zero ",()=>{
@@ -95,14 +94,14 @@ describe("PercentageCalculation And Grade",()=>{
            }
          var  gradeSystem1= new gradeSystem(Json_job6);
          var result= gradeSystem1.calculateBuildGrade();
-         expect(result).to.equal("InvalidGrade");
+         assert(result!='total testCases are not less than 0 ',"total testCases are not less than 0");
 
     });
 
     it("When the passed test case is negative",()=>{
         var Json_job7= {
             'buildNumber': '123456',
-            'total': 0,
+            'total': 800,
             'passed': -450,
             'failed': 40,
             'skipped': 63,
@@ -110,23 +109,25 @@ describe("PercentageCalculation And Grade",()=>{
            }
            var gradeSystem1= new gradeSystem(Json_job7);
            var result= gradeSystem1.calculateBuildGrade();
-           expect(result).to.equal("InvalidGrade");
+           assert(result!='passed test cases are not less than 0 ',"passed test cases are not less than 0");
     });
 
-    it("when all the values are zero",()=>{
-        var Json_job8= {
-            'buildNumber': '123456',
-            'total': 0,
-            'passed': 0,
-            'failed': 0,
-            'skipped': 0,
-            'aborted': 0
-           }
-           var gradeSystem1= new gradeSystem(Json_job8);
-           var result= gradeSystem1.calculateBuildGrade();  
-           expect(result).to.equal("InvalidGrade");
-
-    });
+    it("when passed test cases are not greater than to  total test cases",()=>{
+        var  Json_job8= 
+    {
+        'buildNumber': '123456',
+        'total': 100,
+        'passed': 600,
+        'failed': 1200,
+        'skipped': 24,
+        'aborted': 19
+       }
+    var gradeSystem1= new gradeSystem(Json_job8);
+    
+    var result= gradeSystem1.calculateBuildGrade();
+   
+    assert(result!=="passed test cases are not greater than to  total test cases ","passed test cases are not greater than to  total test cases");
+});
 
     it("when skipped test cases are more than total test cases",()=>{
         var Json_job9= {
@@ -135,30 +136,15 @@ describe("PercentageCalculation And Grade",()=>{
             'passed': 600,
             'failed': 10,
             'skipped': 1200,
-            'aborted': 0
+            'aborted': 2
            }
            var gradeSystem1= new gradeSystem(Json_job9);
            var result= gradeSystem1.calculateBuildGrade();
-           expect(result).to.equal("InvalidGrade");
-    });
-
-
-    it("when failed test cases are more than total test cases",()=>{
-        var  Json_job10= {
-            'buildNumber': '123456',
-            'total': 1000,
-            'passed': 600,
-            'failed': 1200,
-            'skipped': 24,
-            'aborted': 19
-           }
-           var gradeSystem1= new gradeSystem(Json_job10);
-           var result= gradeSystem1.calculateBuildGrade();
-           expect(result).to.equal("InvalidGrade");
+           assert(result!="total skipped test cases are not greater than total  test cases ","total skipped test cases are not greater than total  test cases")
     });
 
     it("When failed test cases are negative",()=>{
-        var Json_job11= {
+        var Json_job10= {
             'buildNumber': '123456',
             'total': 800,
             'passed': 450,
@@ -166,14 +152,14 @@ describe("PercentageCalculation And Grade",()=>{
             'skipped': 63,
             'aborted': 17
            }
-         var  gradeSystem1= new gradeSystem(Json_job11);
+         var  gradeSystem1= new gradeSystem(Json_job10);
          var result= gradeSystem1.calculateBuildGrade();
-         expect(result).to.equal("InvalidGrade");
+         assert(result!=="failed test cases are not less than 0 ","failed test cases are not less than 0");
 
     });
 
     it("When  skipped test cases are negative",()=>{
-        var Json_job12= {
+        var Json_job11= {
             'buildNumber': '123456',
             'total': 800,
             'passed': 450,
@@ -181,14 +167,14 @@ describe("PercentageCalculation And Grade",()=>{
             'skipped': -63,
             'aborted': 17
            }
-         var  gradeSystem1= new gradeSystem(Json_job12);
+         var  gradeSystem1= new gradeSystem(Json_job11);
          var result= gradeSystem1.calculateBuildGrade();
-         expect(result).to.equal("InvalidGrade");
+         assert(result!=="skipped test cases are not less than 0 ","skipped test cases are not less than 0");
 
     });
 
     it("When aborted test cases are negative",()=>{
-        var Json_job13= {
+        var Json_job12= {
             'buildNumber': '123456',
             'total': 800,
             'passed': 450,
@@ -196,10 +182,9 @@ describe("PercentageCalculation And Grade",()=>{
             'skipped': 63,
             'aborted': -17
            }
-         var  gradeSystem1= new gradeSystem(Json_job13);
+         var  gradeSystem1= new gradeSystem(Json_job12);
          var result= gradeSystem1.calculateBuildGrade();
-         expect(result).to.equal("InvalidGrade");
-
+         assert(result!=="aborted test cases are not less than 0 ","aborted test cases are not less than 0");
     });
 
 });
