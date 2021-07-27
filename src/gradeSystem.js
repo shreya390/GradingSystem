@@ -10,22 +10,44 @@ class gradeSystem{
     }
     calculateBuildGrade (){
         let grade="";
+        let percentage=0;
         try{
-                if(this.total<=0) throw "total testCases are not less than 0";
-                if(this.passed<=0) throw "passed test cases are not less than 0";
-                if(this.failed<=0) throw "failed test cases are not less than 0";
-                if(this.skipped<=0) throw "skipped test cases are not less than 0";
-                if(this.aborted<=0) throw "aborted test cases are not less than 0";
-                if(this.passed>this.total) throw "passed test cases are not greater than to  total test cases";
-                if(this.skipped>this.total) throw "total skipped test cases are not greater than total  test cases";
-        }
-        catch(err)
-        {
-            return err;
-        }
-       
-        let percentage= this.passed/(this.total- this.skipped+this.aborted);
+       percentage= this.passed/(this.total- this.skipped+this.aborted);
+            if(this.total<=0) 
+            {
+            throw ("total testCases are not less than 0");
+            }
+    
+            if(this.failed<=0) 
+            {
+                throw ("failed test cases are not less than 0");
+             }
+
+             if(percentage<0||percentage>100){
+                throw ("Invalid Data");
+            }
+           
+            if(this.skipped<=0) 
+            { 
+                throw ("skipped test cases are not less than 0");
+           }
         
+            if(this.aborted<=0) 
+            {
+                throw ("aborted test cases are not less than 0");
+           }
+           
+            if(this.passed>this.total) 
+            {
+                throw ("passed test cases are not greater than to  total test cases");
+           }
+
+        }
+        
+           catch(error)
+           {
+               return error;
+           }
         percentage=parseInt(percentage*100);
         var grades = {
             'A': {
@@ -67,8 +89,4 @@ module.exports={
     gradeSystem
     
   }
-//   "scripts": {
-//     "start": "node index.js",
-//     "test": "nyc mocha test/**/*.spec.js"
-//   },
 
